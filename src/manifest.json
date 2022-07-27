@@ -1,0 +1,10 @@
+{
+  "name": "Extraordictionary",
+  "description": "A dictionary with images and Ankiconnect",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup/index.html"
+  },
+  "options_page": "options/index.html"
+}
