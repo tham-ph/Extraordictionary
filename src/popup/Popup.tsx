@@ -1,9 +1,16 @@
 import React from 'react';
+import Header from "./components/Header";
+import DefinitionsContainer from "./components/DefinitionsContainer";
+import ImagesContainer from "./components/ImagesContainer";
 
 const Popup = () => {
   return (
-    <div className="text-3xl bg-blue-300 w-[720px] h-[480px]">
-      This is a popup.
+    <div className="flex flex-col gap-2 p-2">
+      <Header/>
+      <div className="flex gap-2">
+        <DefinitionsContainer/>
+        <ImagesContainer/>
+      </div>
     </div>
   );
 }
