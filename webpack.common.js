@@ -48,6 +48,11 @@ module.exports = {
       patterns: [
         {from: "./src/manifest.json"}
       ]
+    }),
+    new CopyPlugin({
+      patterns: [
+        {from: "./src/assets", to: "assets/"}
+      ]
     })
   ],
 }
