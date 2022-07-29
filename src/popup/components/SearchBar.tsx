@@ -4,9 +4,9 @@ const SearchBar = () => {
   return (
     <form className="flex w-[300px] gap-2 p-1 rounded-lg bg-gray-100">
       <input
-        className="w-[250px] px-2 text-sm bg-gray-100 placeholder-sky-500/50 focus:outline-none"
+        className="w-[250px] px-2 text-sm bg-gray-100 placeholder:italic placeholder-sky-500/50 focus:outline-none"
         type="text"
-        placeholder="search definitions and images"
+        placeholder="search for definitions and images..."
       />
       <button className="p-1 rounded-full hover:bg-sky-400/10">
         <svg
