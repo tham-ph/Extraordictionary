@@ -5,9 +5,9 @@ import ImagesContainer from "./components/ImagesContainer";
 
 const Popup = () => {
   return (
-    <div className="flex flex-col gap-2 p-2">
+    <div className="flex flex-col gap-4 p-2">
       <Header/>
-      <div className="flex gap-2">
+      <div className="flex gap-4">
         <DefinitionsContainer/>
         <ImagesContainer/>
       </div>
