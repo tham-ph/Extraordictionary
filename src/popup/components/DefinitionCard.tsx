@@ -7,7 +7,7 @@ const DefinitionCard = () => {
 
   return (
     <div
-      className="flex flex-col gap-2 p-2 rounded-lg bg-white border-2 border-white cursor-pointer"
+      className="flex flex-col gap-2 p-2 rounded-lg bg-white border-4 border-white cursor-pointer"
       ref={cardRef}
       onClick={() => {
         if (cardRef.current && checkBoxRef.current) {
