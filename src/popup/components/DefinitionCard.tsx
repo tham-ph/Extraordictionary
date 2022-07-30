@@ -7,12 +7,17 @@ const DefinitionCard = () => {
 
   return (
     <div
-      className="flex flex-col text-left gap-2 p-2 rounded-lg bg-white border-2 border-white cursor-pointer"
+      className="flex flex-col gap-2 p-2 rounded-lg bg-white border-2 border-white cursor-pointer"
       ref={cardRef}
       onClick={() => {
         if (cardRef.current && checkBoxRef.current) {
+          cardRef.current.classList.toggle("border-white");
           cardRef.current.classList.toggle("border-teal-500");
+          cardRef.current.classList.toggle("bg-white");
           cardRef.current.classList.toggle("bg-teal-400/10");
+
+          checkBoxRef.current.classList.toggle("bg-gray-100");
+          checkBoxRef.current.classList.toggle("fill-gray-400");
           checkBoxRef.current.classList.toggle("bg-teal-400/30");
           checkBoxRef.current.classList.toggle("fill-teal-600");
         }
