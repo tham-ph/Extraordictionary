@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     popup: "./src/popup/index.tsx",
     options: "./src/options/index.tsx",
-    "background-scripts": "./src/background-scripts/index.ts"
+    background: "./src/background-scripts/index.ts"
   },
   module: {
     rules: [
@@ -32,7 +32,13 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "[name]/index.js",
+    filename: (pathData) => {
+      if (pathData.chunk.name === "background") {
+        return "background-scripts/index.js";
+      } else {
+        return "[name]/index.js";
+      }
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -1,5 +1,7 @@
-chrome.runtime.onMessage.addListener((request, callback) => {
-  console.log(request.action)
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log(request.action);
+  sendResponse("heelo");
 });
 
 export {}
