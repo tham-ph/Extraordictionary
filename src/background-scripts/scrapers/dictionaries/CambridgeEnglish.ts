@@ -56,9 +56,16 @@ const CambridgeEnglish = async (search: string) => {
               let code: string = "";
               if (codeDoc.length > 0) {
                 code = htmlparser2.DomUtils.textContent(codeDoc[0]);
-                code = code.replaceAll("[", "");
-                code = code.replaceAll("]", "");
                 code = code.replaceAll(" ", "");
+                if (code === "[C]") {
+                  code = "countable";
+                } else if (code === "[U]") {
+                  code = "uncountable";
+                } else if (code === "[C/U]") {
+                  code = "countable/uncountable";
+                } else {
+                  code = "";
+                }
               }
 
               searchResults.push({
