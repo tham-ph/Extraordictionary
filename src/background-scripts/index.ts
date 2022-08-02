@@ -1,7 +1,10 @@
 import CambridgeEnglish from "./scrapers/dictionaries/CambridgeEnglish";
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(request.action + " " + request.search + " " + request.dictionary);
-  CambridgeEnglish(request.search);
-  sendResponse("success");
+chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+  if (request.action === "translate") {
+    if (request.dictionary === "CambridgeEnglish") {
+      CambridgeEnglish(request.search).then(searchResults => sendResponse(searchResults));
+    }
+  }
+  return true;
 });
 

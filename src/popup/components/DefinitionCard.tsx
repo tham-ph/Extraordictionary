@@ -1,15 +1,35 @@
-import React, {useContext, useRef} from "react";
+import React, { useContext, useRef } from "react";
 import Tag from "./Tag";
-import { AppContext, AppContextInterface } from "../Popup";
+import {
+  AppContext,
+  AppContextInterface,
+  SearchResultInterface,
+} from "../Popup";
 
 interface Props {
   id: string;
+  data: SearchResultInterface;
 }
-const DefinitionCard = ({id}: Props) => {
+
+const DefinitionCard = ({ id, data }: Props) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const checkBoxRef = useRef<SVGSVGElement>(null);
   const selectedBoxRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   const { selectedCardIdList, setSelectedCardIdList } = useContext<AppContextInterface>(AppContext);
+
+  const tagsList: JSX.Element[] = [];
+  for (let i = 0; i < data.tags.length; i++) {
+    if (data.tags[i] !== "") {
+      tagsList.push(<Tag key={"tag" + i} text={data.tags[i]} onClose={false} />);
+    }
+  }
+
+  const examplesList: JSX.Element[] = [];
+  for (let i = 0; i < data.examples.length; i++) {
+    examplesList.push(<li>{data.examples[i]}</li>);
+  }
 
   return (
     <div
@@ -44,11 +64,14 @@ const DefinitionCard = ({id}: Props) => {
     >
       <div className="flex justify-between">
         <div className="flex items-center gap-2">
-          <h2 className="text-3xl font-bold">word</h2>
+          <h2 className="text-2xl font-bold">{data.name}</h2>
           <button
             className="rounded-full p-1 hover:bg-sky-400/10"
             onClick={(event) => {
               event.stopPropagation();
+              if (audioRef.current) {
+                audioRef.current.play();
+              }
             }}
           >
             <svg
@@ -62,6 +85,7 @@ const DefinitionCard = ({id}: Props) => {
               <path d="M9.38268 3.07615C9.75636 3.23093 10 3.59557 10 4.00003V16C10 16.4045 9.75636 16.7691 9.38268 16.9239C9.00901 17.0787 8.57889 16.9931 8.29289 16.7071L4.58579 13H2C1.44772 13 1 12.5523 1 12V8.00003C1 7.44774 1.44772 7.00003 2 7.00003H4.58579L8.29289 3.29292C8.57889 3.00692 9.00901 2.92137 9.38268 3.07615Z" />
               <path d="M14.6568 2.92888C15.0474 2.53836 15.6805 2.53836 16.0711 2.92888C17.8796 4.73743 19 7.2388 19 9.99995C19 12.7611 17.8796 15.2625 16.0711 17.071C15.6805 17.4615 15.0474 17.4615 14.6568 17.071C14.2663 16.6805 14.2663 16.0473 14.6568 15.6568C16.1057 14.208 17 12.2094 17 9.99995C17 7.79053 16.1057 5.7919 14.6568 4.34309C14.2663 3.95257 14.2663 3.3194 14.6568 2.92888ZM11.8284 5.75731C12.2189 5.36678 12.8521 5.36678 13.2426 5.75731C13.7685 6.28319 14.1976 6.90687 14.5003 7.59958C14.822 8.33592 15 9.14847 15 9.99995C15 11.6565 14.3273 13.1579 13.2426 14.2426C12.8521 14.6331 12.2189 14.6331 11.8284 14.2426C11.4379 13.8521 11.4379 13.2189 11.8284 12.8284C12.5534 12.1034 13 11.1048 13 9.99995C13 9.42922 12.8811 8.8889 12.6676 8.40032C12.4663 7.93958 12.1802 7.52327 11.8284 7.17152C11.4379 6.781 11.4379 6.14783 11.8284 5.75731Z" />
             </svg>
+            <audio ref={audioRef} src={data.audioURL}></audio>
           </button>
         </div>
         <svg
@@ -82,21 +106,12 @@ const DefinitionCard = ({id}: Props) => {
           {selectedCardIdList.indexOf(id) + 1}
         </div>
       </div>
-      <div className="flex gap-1">
-        <Tag text={"noun"} onClose={false} />
-        <Tag text={"Cambridge"} onClose={false} />
-      </div>
+      <div className="flex gap-1">{tagsList}</div>
       <p className="text-sm font-medium">
-        a single unit of language that has meaning and can be spoken or written:
+        {data.definition}
       </p>
       <ul className="ml-6 list-disc text-xs italic">
-        <li>Your essay should be no more than two thousand words long.</li>
-        <li>Some words are more difficult to spell than others.</li>
-        <li>What's the word for bikini in French?</li>
-        <li>
-          It's sometimes difficult to find exactly the right word to express
-          what you want to say.
-        </li>
+        {examplesList}
       </ul>
     </div>
   );
