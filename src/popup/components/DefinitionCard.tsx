@@ -106,7 +106,7 @@ const DefinitionCard = ({ id, data }: Props) => {
           {selectedCardIdList.indexOf(id) + 1}
         </div>
       </div>
-      <div className="flex gap-1">{tagsList}</div>
+      <div className="flex flex-wrap gap-1">{tagsList}</div>
       <p className="text-sm font-medium">
         {data.definition}
       </p>
