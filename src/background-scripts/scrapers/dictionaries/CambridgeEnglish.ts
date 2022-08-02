@@ -52,11 +52,20 @@ const CambridgeEnglish = async (search: string) => {
               const name: string = htmlparser2.DomUtils.textContent(CSSselect(".pos-header.dpos-h .di-title .hw.dhw", bodyClassifiedByPartsOfSpeech));
               const partOfSpeech: string = htmlparser2.DomUtils.textContent(CSSselect(".pos-header.dpos-h .posgram.dpos-g .pos.dpos", bodyClassifiedByPartsOfSpeech));
 
+              const codeDoc = CSSselect(".pos-header.dpos-h .posgram.dpos-g .gram.dgram", bodyClassifiedByPartsOfSpeech);
+              let code: string = "";
+              if (codeDoc.length > 0) {
+                code = htmlparser2.DomUtils.textContent(codeDoc[0]);
+                code = code.replaceAll("[", "");
+                code = code.replaceAll("]", "");
+                code = code.replaceAll(" ", "");
+              }
+
               searchResults.push({
                 name,
                 definition,
                 examples,
-                tags: [partOfSpeech, dictionaryName, "Cambridge"],
+                tags: [partOfSpeech, code, dictionaryName, "Cambridge"],
                 audioURL,
               });
             }
