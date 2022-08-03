@@ -28,7 +28,7 @@ const DefinitionCard = ({ id, data }: Props) => {
 
   const examplesList: JSX.Element[] = [];
   for (let i = 0; i < data.examples.length; i++) {
-    examplesList.push(<li>{data.examples[i]}</li>);
+    examplesList.push(<li key={"li" + i}>{data.examples[i]}</li>);
   }
 
   return (
