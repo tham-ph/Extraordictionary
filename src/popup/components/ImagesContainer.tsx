@@ -12,7 +12,13 @@ const ImagesContainer = () => {
 
   return (
     <div className="flex flex-col items-center p-2 gap-2 w-[200px] h-[400px] rounded-lg bg-gray-100 overflow-y-scroll">
-      {imageCardList}
+      {imageCardList.length === 0 ? (
+        <div className="flex justify-center items-center min-h-full">
+          <p className="text-lg font-bold text-gray-400 text-center">Your search terms did not match any images.</p>
+        </div>
+      ) : (
+        imageCardList
+      )}
     </div>
   );
 };
