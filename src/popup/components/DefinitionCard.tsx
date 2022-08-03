@@ -54,8 +54,8 @@ const DefinitionCard = ({ id, data }: Props) => {
 
           checkBoxRef.current.classList.toggle("bg-gray-100");
           checkBoxRef.current.classList.toggle("fill-gray-400");
-          checkBoxRef.current.classList.toggle("bg-teal-400/30");
-          checkBoxRef.current.classList.toggle("fill-teal-600");
+          checkBoxRef.current.classList.toggle("bg-teal-500");
+          checkBoxRef.current.classList.toggle("fill-white");
 
           checkBoxRef.current.classList.toggle("hidden");
           selectedBoxRef.current.classList.toggle("hidden");
@@ -100,7 +100,7 @@ const DefinitionCard = ({ id, data }: Props) => {
           <path d="M16.7071 5.29289C17.0976 5.68342 17.0976 6.31658 16.7071 6.70711L8.70711 14.7071C8.31658 15.0976 7.68342 15.0976 7.29289 14.7071L3.29289 10.7071C2.90237 10.3166 2.90237 9.68342 3.29289 9.29289C3.68342 8.90237 4.31658 8.90237 4.70711 9.29289L8 12.5858L15.2929 5.29289C15.6834 4.90237 16.3166 4.90237 16.7071 5.29289Z" />
         </svg>
         <div
-          className="hidden flex justify-center items-center text-xs text-teal-600 bg-teal-400/30 w-6 h-6 rounded-full"
+          className="hidden flex justify-center items-center font-bold text-xs text-white bg-teal-500 w-6 h-6 rounded-full"
           ref={selectedBoxRef}
         >
           {selectedCardIdList.indexOf(id) + 1}
