@@ -20,6 +20,12 @@ export interface AppContextInterface {
 
   imageURLSearchResults: string[];
   setImageURLSearchResults: (value: string[]) => void;
+
+  isDefinitionsReady: boolean;
+  setDefinitionsReady: (value: boolean) => void;
+
+  isImagesReady: boolean;
+  setImagesReady: (value: boolean) => void;
 }
 
 export const AppContext = createContext<AppContextInterface>({
@@ -37,12 +43,18 @@ export const AppContext = createContext<AppContextInterface>({
   setSearchResults: (value) => [],
   imageURLSearchResults: [],
   setImageURLSearchResults: (value) => [],
+  isDefinitionsReady: true,
+  setDefinitionsReady: (value) => true,
+  isImagesReady: true,
+  setImagesReady: value => true
 });
 
 const Popup = () => {
   const [selectedCardIdList, setSelectedCardIdList] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<SearchResultInterface[]>([]);
   const [imageURLSearchResults, setImageURLSearchResults] = useState<string[]>([]);
+  const [isDefinitionsReady, setDefinitionsReady] = useState<boolean>(true);
+  const [isImagesReady, setImagesReady] = useState<boolean>(true);
   return (
     <AppContext.Provider
       value={{
@@ -52,6 +64,10 @@ const Popup = () => {
         setSearchResults,
         imageURLSearchResults,
         setImageURLSearchResults,
+        isDefinitionsReady,
+        setDefinitionsReady,
+        isImagesReady,
+        setImagesReady
       }}
     >
       <div className="flex flex-col gap-4 p-2">

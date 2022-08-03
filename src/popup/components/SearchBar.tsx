@@ -3,13 +3,15 @@ import { AppContext, AppContextInterface } from "../Popup";
 
 const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { setSearchResults, setImageURLSearchResults} = useContext<AppContextInterface>(AppContext);
+  const { setSearchResults, setImageURLSearchResults, setDefinitionsReady, setImagesReady} = useContext<AppContextInterface>(AppContext);
 
   return (
     <form
       className="flex w-[300px] gap-2 p-1 rounded-lg bg-gray-100"
       onSubmit={(event) => {
         event.preventDefault();
+        setDefinitionsReady(false);
+        setImagesReady(false);
         chrome.runtime.sendMessage(
           {
             action: "translate",
@@ -18,6 +20,7 @@ const SearchBar = () => {
           },
           (response) => {
             setSearchResults(response);
+            setDefinitionsReady(true);
           }
         );
         chrome.runtime.sendMessage(
@@ -27,6 +30,7 @@ const SearchBar = () => {
           },
           (response) => {
             setImageURLSearchResults(response);
+            setImagesReady(true);
           }
         );
       }}
