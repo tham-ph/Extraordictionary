@@ -3,7 +3,7 @@ import { AppContext, AppContextInterface } from "../Popup";
 
 const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { setSearchResults } = useContext<AppContextInterface>(AppContext);
+  const { setSearchResults, setImageURLSearchResults} = useContext<AppContextInterface>(AppContext);
 
   return (
     <form
@@ -18,6 +18,15 @@ const SearchBar = () => {
           },
           (response) => {
             setSearchResults(response);
+          }
+        );
+        chrome.runtime.sendMessage(
+          {
+            action: "image",
+            search: inputRef.current ? inputRef.current.value : "",
+          },
+          (response) => {
+            setImageURLSearchResults(response);
           }
         );
       }}
@@ -48,3 +57,5 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
+
+

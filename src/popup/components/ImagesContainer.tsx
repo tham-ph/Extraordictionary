@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import ImageCard from "./ImageCard";
+import {AppContext, AppContextInterface} from "../Popup";
 
 const ImagesContainer = () => {
+  const { imageURLSearchResults } = useContext<AppContextInterface>(AppContext);
+
   const imageCardList: JSX.Element[] = [];
-  for (let i = 0; i < 3; i++) {
-    imageCardList.push(<ImageCard key={i} id={"image-" + i}/>)
+  for (let i = 0; i < imageURLSearchResults.length; i++) {
+    imageCardList.push(<ImageCard key={i} id={"image-" + i} imageURL={imageURLSearchResults[i]}/>)
   }
 
   return (

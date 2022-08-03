@@ -14,8 +14,12 @@ export interface SearchResultInterface {
 export interface AppContextInterface {
   selectedCardIdList: string[];
   setSelectedCardIdList: (value: string[]) => void;
+
   searchResults: SearchResultInterface[];
   setSearchResults: (value: SearchResultInterface[]) => void;
+
+  imageURLSearchResults: string[];
+  setImageURLSearchResults: (value: string[]) => void;
 }
 
 export const AppContext = createContext<AppContextInterface>({
@@ -31,11 +35,14 @@ export const AppContext = createContext<AppContextInterface>({
     },
   ],
   setSearchResults: (value) => [],
+  imageURLSearchResults: [],
+  setImageURLSearchResults: (value) => [],
 });
 
 const Popup = () => {
   const [selectedCardIdList, setSelectedCardIdList] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<SearchResultInterface[]>([]);
+  const [imageURLSearchResults, setImageURLSearchResults] = useState<string[]>([]);
   return (
     <AppContext.Provider
       value={{
@@ -43,6 +50,8 @@ const Popup = () => {
         setSelectedCardIdList,
         searchResults,
         setSearchResults,
+        imageURLSearchResults,
+        setImageURLSearchResults,
       }}
     >
       <div className="flex flex-col gap-4 p-2">
