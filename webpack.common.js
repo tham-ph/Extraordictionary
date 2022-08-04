@@ -6,7 +6,8 @@ module.exports = {
   entry: {
     popup: "./src/popup/index.tsx",
     options: "./src/options/index.tsx",
-    background: "./src/background-scripts/index.ts"
+    background: "./src/background-scripts/index.ts",
+    content: "./src/content-scripts/index.ts"
   },
   module: {
     rules: [
@@ -35,6 +36,8 @@ module.exports = {
     filename: (pathData) => {
       if (pathData.chunk.name === "background") {
         return "background-scripts/index.js";
+      } else if (pathData.chunk.name === "content") {
+        return "content-scripts/index.js"
       } else {
         return "[name]/index.js";
       }
