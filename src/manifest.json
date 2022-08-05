@@ -15,7 +15,7 @@
   "options_page": "options/index.html",
   "content_scripts": [
     {
-      "matches" : ["https://*/", "http://*/"],
+      "matches" : ["<all_urls>"],
       "js": ["content-scripts/index.js"]
     }
   ],
@@ -23,5 +23,11 @@
     "service_worker": "background-scripts/index.js",
     "type": "module"
   },
-  "host_permissions": ["https://*/"]
+  "host_permissions": ["<all_urls>"],
+  "web_accessible_resources": [
+    {
+      "resources": ["popup/index.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
