@@ -17,17 +17,19 @@ const initPopup = () => {
 };
 
 const openPopup = () => {
+  setTimeout(() => {
+    selectedText = window.getSelection();
+    if (selectedText) {
+      selectedText = selectedText.toString();
+      if (selectedText.length > 0 && selectedText.length < 100) {
+        // reload iframe
+        popup.src = popup.src;
 
-  selectedText = window.getSelection();
-  if (selectedText) {
-    selectedText = selectedText.toString();
-    if (selectedText.length > 0 && selectedText.length < 100) {
-      // reload iframe
-      popup.src = popup.src;
-
-      popup.style.visibility = "visible";
+        popup.style.visibility = "visible";
+      }
     }
-  }
+  }, 500);
+
 };
 
 initPopup();
@@ -42,6 +44,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse(selectedText);
   }
 });
-
 
 export {};
