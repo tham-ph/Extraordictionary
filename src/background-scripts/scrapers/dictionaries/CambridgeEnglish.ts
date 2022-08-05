@@ -12,9 +12,12 @@ const CambridgeEnglish = async (search: string) => {
     })
     .then((html) => {
       const document = htmlparser2.parseDocument(html);
+      let audioURL: string = "";
 
-      // @ts-ignore
-      let audioURL: string = CSSselect("source[type=audio/mpeg]", document)[1].attribs.src;
+      if (CSSselect("source[type=audio/mpeg]", document)[1]) {
+        // @ts-ignore
+        audioURL = CSSselect("source[type=audio/mpeg]", document)[1].attribs.src;
+      }
       audioURL = "https://dictionary.cambridge.org" + audioURL;
 
       for (const dictionary of CSSselect(".pr.dictionary", document)) {
@@ -24,9 +27,8 @@ const CambridgeEnglish = async (search: string) => {
           dictionaryName = htmlparser2.DomUtils.textContent(CSSselect(".di-head.c_h.di_h .di-title.di_t .c_hh", dictionary)).split(" | ")[1];
         }
 
-        for (const bodyClassifiedByPartsOfSpeech of CSSselect(".pr.entry-body__el", dictionary)) {
-          for (const definitionBlock of CSSselect(".pos-body .pr.dsense .def-block.ddef_block ", bodyClassifiedByPartsOfSpeech)) {
-
+        const extractDefinitions = (bodyClassifiedByPartsOfSpeech: any) => {
+          for (const definitionBlock of CSSselect(".pr.dsense .def-block.ddef_block ", bodyClassifiedByPartsOfSpeech)) {
             let definition: string = htmlparser2.DomUtils.textContent(CSSselect(".def.ddef_d.db", definitionBlock));
             definition = definition.replaceAll("\n", "");
             definition = definition.replaceAll("  ", "");
@@ -49,8 +51,9 @@ const CambridgeEnglish = async (search: string) => {
                 audioURL,
               });
             } else {
-              const name: string = htmlparser2.DomUtils.textContent(CSSselect(".pos-header.dpos-h .di-title .hw.dhw", bodyClassifiedByPartsOfSpeech));
-              const partOfSpeech: string = htmlparser2.DomUtils.textContent(CSSselect(".pos-header.dpos-h .posgram.dpos-g .pos.dpos", bodyClassifiedByPartsOfSpeech));
+              const name: string = htmlparser2.DomUtils.textContent(CSSselect(".di-title", bodyClassifiedByPartsOfSpeech));
+              let partOfSpeech: string = htmlparser2.DomUtils.textContent(CSSselect(".pos.dpos", bodyClassifiedByPartsOfSpeech));
+              if (partOfSpeech === "phrasal verbverb") partOfSpeech = "phrasal verb";
 
               const codeDoc = CSSselect(".pos-header.dpos-h .posgram.dpos-g .gram.dgram", bodyClassifiedByPartsOfSpeech);
               let code: string = "";
@@ -78,6 +81,16 @@ const CambridgeEnglish = async (search: string) => {
             }
           }
         }
+
+        for (const bodyClassifiedByPartsOfSpeech of CSSselect(".entry-body__el", dictionary)) {
+          extractDefinitions(bodyClassifiedByPartsOfSpeech);
+        }
+
+        //for idiom
+        for (const bodyClassifiedByPartsOfSpeech of CSSselect(".idiom-block", dictionary)) {
+          extractDefinitions(bodyClassifiedByPartsOfSpeech);
+        }
+
       }
     })
     .catch((error) => {
