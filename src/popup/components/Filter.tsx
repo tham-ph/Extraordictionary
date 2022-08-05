@@ -2,10 +2,10 @@ import React from "react";
 
 const Filter = () => {
   return (
-    <button className="p-2 rounded-full hover:bg-sky-400/10" >
+    <button className="p-1 rounded-full hover:bg-sky-400/10" >
       <svg
-        width="24"
-        height="24"
+        width="22"
+        height="22"
         viewBox="0 0 20 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
