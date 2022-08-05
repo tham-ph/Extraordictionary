@@ -17,13 +17,14 @@ const initPopup = () => {
 };
 
 const openPopup = () => {
-  // reload iframe
-  popup.src = popup.src;
 
   selectedText = window.getSelection();
   if (selectedText) {
     selectedText = selectedText.toString();
-    if (selectedText.length > 0) {
+    if (selectedText.length > 0 && selectedText.length < 100) {
+      // reload iframe
+      popup.src = popup.src;
+
       popup.style.visibility = "visible";
     }
   }
@@ -31,6 +32,7 @@ const openPopup = () => {
 
 initPopup();
 window.addEventListener("dblclick", openPopup);
+window.addEventListener("mouseup", openPopup);
 window.addEventListener("mousedown", () => {
   popup.style.visibility = "hidden";
 });
