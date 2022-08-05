@@ -1,43 +1,71 @@
-import React, { useContext, useRef } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import { AppContext, AppContextInterface } from "../Popup";
 
 const SearchBar = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { setSearchResults, setImageURLSearchResults, setDefinitionsReady, setImagesReady} = useContext<AppContextInterface>(AppContext);
+  const {
+    setSearchResults,
+    setImageURLSearchResults,
+    setDefinitionsReady,
+    setImagesReady,
+  } = useContext<AppContextInterface>(AppContext);
+
+  const [selectedText, setSelectedText] = useState<string>("");
+
+  const search = async () => {
+    if (inputRef.current?.value === "") {
+      return;
+    }
+    setDefinitionsReady(false);
+    setImagesReady(false);
+    await chrome.runtime.sendMessage(
+      {
+        action: "translate",
+        search: inputRef.current?.value,
+        dictionary: "CambridgeEnglish",
+      },
+      (response) => {
+        setSearchResults(response);
+        setDefinitionsReady(true);
+      }
+    );
+    await chrome.runtime.sendMessage(
+      {
+        action: "image",
+        search: inputRef.current?.value,
+      },
+      (response) => {
+        setImageURLSearchResults(response);
+        setImagesReady(true);
+      }
+    );
+  };
+  chrome.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+    chrome.tabs.sendMessage(
+      tabs[0].id as number,
+      { action: "getSelectedText" },
+      (response) => {
+        setSelectedText(response);
+      }
+    );
+  });
+
+  useEffect(() => {
+    search();
+  }, [selectedText]);
 
   return (
     <form
       className="flex w-[300px] gap-2 p-1 rounded-lg bg-gray-100"
       onSubmit={(event) => {
         event.preventDefault();
-        setDefinitionsReady(false);
-        setImagesReady(false);
-        chrome.runtime.sendMessage(
-          {
-            action: "translate",
-            search: inputRef.current ? inputRef.current.value : "",
-            dictionary: "CambridgeEnglish",
-          },
-          (response) => {
-            setSearchResults(response);
-            setDefinitionsReady(true);
-          }
-        );
-        chrome.runtime.sendMessage(
-          {
-            action: "image",
-            search: inputRef.current ? inputRef.current.value : "",
-          },
-          (response) => {
-            setImageURLSearchResults(response);
-            setImagesReady(true);
-          }
-        );
+        search();
       }}
     >
       <input
         className="w-[250px] px-2 text-sm bg-gray-100 placeholder:italic placeholder-sky-500/50 focus:outline-none"
         type="text"
+        defaultValue={selectedText}
         placeholder="search for definitions and images..."
         ref={inputRef}
         autoFocus
@@ -61,5 +89,3 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
-
-
