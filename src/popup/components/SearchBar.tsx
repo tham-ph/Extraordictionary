@@ -12,13 +12,13 @@ const SearchBar = () => {
 
   const [selectedText, setSelectedText] = useState<string>("");
 
-  const search = async () => {
+  const search = () => {
     if (inputRef.current?.value === "") {
       return;
     }
     setDefinitionsReady(false);
     setImagesReady(false);
-    await chrome.runtime.sendMessage(
+    chrome.runtime.sendMessage(
       {
         action: "translate",
         search: inputRef.current?.value,
@@ -29,7 +29,7 @@ const SearchBar = () => {
         setDefinitionsReady(true);
       }
     );
-    await chrome.runtime.sendMessage(
+    chrome.runtime.sendMessage(
       {
         action: "image",
         search: inputRef.current?.value,
