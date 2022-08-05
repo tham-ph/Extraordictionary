@@ -37,6 +37,7 @@ window.addEventListener("dblclick", openPopup);
 window.addEventListener("mouseup", openPopup);
 window.addEventListener("mousedown", () => {
   popup.style.visibility = "hidden";
+  window.getSelection()?.empty();
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
