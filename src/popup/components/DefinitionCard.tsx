@@ -63,7 +63,7 @@ const DefinitionCard = ({ id, data }: Props) => {
       }}
     >
       <div className="flex justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-[280px] break-all">
           <h2 className="text-2xl font-bold">{data.name}</h2>
           <button
             className="rounded-full p-1 hover:bg-sky-400/10"
