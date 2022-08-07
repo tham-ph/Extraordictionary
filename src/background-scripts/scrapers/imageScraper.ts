@@ -1,6 +1,6 @@
 import * as htmlparser2 from "htmlparser2";
 import { default as CSSselect } from "css-select";
-const ImageScraper = async (search: string) => {
+const imageScraper = async (search: string) => {
   const imageURLSearchResults: string[] = [];
 
   await fetch("https://www.google.com/search?q=" + search + "&tbm=isch").then(response => {
@@ -21,4 +21,4 @@ const ImageScraper = async (search: string) => {
   return imageURLSearchResults;
 }
 
-export default ImageScraper;
+export default imageScraper;

@@ -1,12 +1,12 @@
-import CambridgeEnglish from "./scrapers/dictionaries/CambridgeEnglish";
-import ImageScraper from "./scrapers/ImageScraper";
+import cambridgeEnglish from "./scrapers/dictionaries/cambridgeEnglish";
+import imageScraper from "./scrapers/imageScraper";
 chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   if (request.action === "translate") {
     if (request.dictionary === "CambridgeEnglish") {
-      CambridgeEnglish(request.search).then(searchResults => sendResponse(searchResults));
+      cambridgeEnglish(request.search).then(searchResults => sendResponse(searchResults));
     }
   } else if (request.action === "image") {
-    ImageScraper(request.search).then(ImageURLSearchResults => sendResponse(ImageURLSearchResults));
+    imageScraper(request.search).then(imageURLSearchResults => sendResponse(imageURLSearchResults));
   }
   return true;
 });

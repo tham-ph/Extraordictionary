@@ -3,7 +3,7 @@ import { default as CSSselect } from "css-select";
 
 import {SearchResultInterface} from "../../../popup/Popup";
 
-const CambridgeEnglish = async (search: string) => {
+const cambridgeEnglish = async (search: string) => {
   const searchResults: SearchResultInterface[] = [];
 
   await fetch("https://dictionary.cambridge.org/dictionary/english/" + search)
@@ -100,5 +100,5 @@ const CambridgeEnglish = async (search: string) => {
   return searchResults;
 };
 
-export default CambridgeEnglish;
+export default cambridgeEnglish;
 
