@@ -16,6 +16,7 @@ const SearchBar = () => {
     if (inputRef.current?.value === "") {
       return;
     }
+    console.log("test0" + " x " + inputRef.current?.value);
     setDefinitionsReady(false);
     setImagesReady(false);
     chrome.runtime.sendMessage(
@@ -40,15 +41,19 @@ const SearchBar = () => {
       }
     );
   };
-  chrome.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
-    chrome.tabs.sendMessage(
-      tabs[0].id as number,
-      { action: "getSelectedText" },
-      (response) => {
-        setSelectedText(response);
-      }
-    );
-  });
+
+  useEffect(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
+      chrome.tabs.sendMessage(
+        tabs[0].id as number,
+        { action: "getSelectedText" },
+        (response) => {
+          console.log("test tabs")
+          setSelectedText(response);
+        }
+      );
+    });
+  }, []);
 
   useEffect(() => {
     search();
