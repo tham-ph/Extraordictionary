@@ -16,7 +16,6 @@ const SearchBar = () => {
     if (inputRef.current?.value === "") {
       return;
     }
-    console.log("test0" + " x " + inputRef.current?.value);
     setDefinitionsReady(false);
     setImagesReady(false);
     chrome.runtime.sendMessage(
@@ -48,7 +47,6 @@ const SearchBar = () => {
         tabs[0].id as number,
         { action: "getSelectedText" },
         (response) => {
-          console.log("test tabs")
           setSelectedText(response);
         }
       );
