@@ -25,7 +25,7 @@ const getDeckNames = async () => {
   return await ankiInvoke("deckNames", {});
 };
 
-const addNote = async () => {
+const addCard = async () => {
   return await ankiInvoke("addNote", {
     "note": {
       "deckName": "test1",
@@ -50,4 +50,4 @@ const addNote = async () => {
   })
 }
 
-export { ankiInvoke, getDeckNames, addNote};
+export { ankiInvoke, getDeckNames, addCard};
