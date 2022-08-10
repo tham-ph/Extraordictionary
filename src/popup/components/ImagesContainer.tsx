@@ -10,8 +10,8 @@ const ImagesContainer = () => {
   for (let i = 0; i < imageURLSearchResults.length; i++) {
     imageCardList.push(
       <ImageCard
-        key={i}
-        id={"image-" + i}
+        key={"image " + i}
+        id={"image " + i}
         imageURL={imageURLSearchResults[i]}
       />
     );

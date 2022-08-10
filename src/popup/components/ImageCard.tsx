@@ -1,4 +1,4 @@
-import React, {useContext, useRef} from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import {AppContext, AppContextInterface} from "../Popup";
 
 interface Props {
@@ -9,7 +9,29 @@ const ImageCard = ({id, imageURL}: Props) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const checkBoxRef = useRef<SVGSVGElement>(null);
   const selectedBoxRef = useRef<HTMLDivElement>(null);
-  const { selectedCardIdList, setSelectedCardIdList } = useContext<AppContextInterface>(AppContext);
+  const { selectedCardIdList, setSelectedCardIdList, isAddToAnkiButtonClicked} = useContext<AppContextInterface>(AppContext);
+
+  const toggleSelectionStyle = () => {
+    if (cardRef.current && checkBoxRef.current && selectedBoxRef.current) {
+      cardRef.current.classList.toggle("border-white");
+      cardRef.current.classList.toggle("border-teal-500");
+      cardRef.current.classList.toggle("bg-white");
+      cardRef.current.classList.toggle("bg-teal-400/10");
+
+      checkBoxRef.current.classList.toggle("bg-gray-100");
+      checkBoxRef.current.classList.toggle("fill-gray-400");
+      checkBoxRef.current.classList.toggle("bg-teal-500");
+      checkBoxRef.current.classList.toggle("fill-white");
+
+      checkBoxRef.current.classList.toggle("hidden");
+      selectedBoxRef.current.classList.toggle("hidden");
+    }
+  }
+  useEffect(() => {
+    if (isAddToAnkiButtonClicked && selectedCardIdList.indexOf(id) != -1) {
+      toggleSelectionStyle();
+    }
+  }, [isAddToAnkiButtonClicked]);
 
   return (
     <div
@@ -21,7 +43,6 @@ const ImageCard = ({id, imageURL}: Props) => {
       ref={cardRef}
       id={id}
       onClick={() => {
-        if (cardRef.current && checkBoxRef.current && selectedBoxRef.current) {
           let tempList: string[] = [...selectedCardIdList];
           const indexOfId = tempList.indexOf(id);
           if (indexOfId !== -1) {
@@ -30,20 +51,7 @@ const ImageCard = ({id, imageURL}: Props) => {
             tempList.push(id);
           }
           setSelectedCardIdList(tempList);
-
-          cardRef.current.classList.toggle("border-white");
-          cardRef.current.classList.toggle("border-teal-500");
-          cardRef.current.classList.toggle("bg-white");
-          cardRef.current.classList.toggle("bg-teal-400/10");
-
-          checkBoxRef.current.classList.toggle("bg-gray-100");
-          checkBoxRef.current.classList.toggle("fill-gray-400");
-          checkBoxRef.current.classList.toggle("bg-teal-500");
-          checkBoxRef.current.classList.toggle("fill-white");
-
-          checkBoxRef.current.classList.toggle("hidden");
-          selectedBoxRef.current.classList.toggle("hidden");
-        }
+          toggleSelectionStyle();
       }}
     >
       <svg

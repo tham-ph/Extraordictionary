@@ -26,6 +26,12 @@ export interface AppContextInterface {
 
   isImagesReady: boolean;
   setImagesReady: (value: boolean) => void;
+
+  isAddToAnkiButtonClicked: boolean;
+  setAddToAnkiButtonClicked: (value: boolean) => void;
+
+  searchInput: string;
+  setSearchInput: (value: string) => void;
 }
 
 export const AppContext = createContext<AppContextInterface>({
@@ -46,7 +52,11 @@ export const AppContext = createContext<AppContextInterface>({
   isDefinitionsReady: true,
   setDefinitionsReady: (value) => true,
   isImagesReady: true,
-  setImagesReady: value => true
+  setImagesReady: value => true,
+  isAddToAnkiButtonClicked: true,
+  setAddToAnkiButtonClicked: value => true,
+  searchInput: "",
+  setSearchInput: value => ""
 });
 
 const Popup = () => {
@@ -55,6 +65,8 @@ const Popup = () => {
   const [imageURLSearchResults, setImageURLSearchResults] = useState<string[]>([]);
   const [isDefinitionsReady, setDefinitionsReady] = useState<boolean>(true);
   const [isImagesReady, setImagesReady] = useState<boolean>(true);
+  const [isAddToAnkiButtonClicked, setAddToAnkiButtonClicked] = useState<boolean>(true);
+  const [searchInput, setSearchInput] = useState<string>("");
   return (
     <AppContext.Provider
       value={{
@@ -67,7 +79,11 @@ const Popup = () => {
         isDefinitionsReady,
         setDefinitionsReady,
         isImagesReady,
-        setImagesReady
+        setImagesReady,
+        isAddToAnkiButtonClicked,
+        setAddToAnkiButtonClicked,
+        searchInput,
+        setSearchInput
       }}
     >
       <div className="flex flex-col gap-4 p-2">

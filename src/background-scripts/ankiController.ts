@@ -1,7 +1,6 @@
 const ankiInvoke = async (action: string, params: object) => {
   const version = 6;
   let result: any = {};
-  console.log("test2");
   fetch("http://127.0.0.1:8765", {
     method: "POST",
     headers: {
@@ -25,14 +24,14 @@ const getDeckNames = async () => {
   return await ankiInvoke("deckNames", {});
 };
 
-const addCard = async () => {
+const addCard = async (frontCardHTML: string, backCardHTML: string) => {
   return await ankiInvoke("addNote", {
     "note": {
       "deckName": "test1",
       "modelName": "Basic",
       "fields": {
-        "Front": "front2222",
-        "Back": "<p style='color: red'>test</p>"
+        "Front": frontCardHTML,
+        "Back": backCardHTML
       },
       "tags": [
         "Extraordictionary"

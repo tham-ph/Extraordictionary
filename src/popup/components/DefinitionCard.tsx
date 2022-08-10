@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Tag from "./Tag";
 import {
   AppContext,
@@ -11,18 +11,42 @@ interface Props {
   data: SearchResultInterface;
 }
 
+
 const DefinitionCard = ({ id, data }: Props) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const checkBoxRef = useRef<SVGSVGElement>(null);
   const selectedBoxRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const { selectedCardIdList, setSelectedCardIdList } = useContext<AppContextInterface>(AppContext);
+  const {
+    selectedCardIdList,
+    setSelectedCardIdList,
+    isAddToAnkiButtonClicked
+  } = useContext<AppContextInterface>(AppContext);
+
+  const toggleSelectionStyle = () => {
+    if (cardRef.current && checkBoxRef.current && selectedBoxRef.current) {
+      cardRef.current.classList.toggle("border-white");
+      cardRef.current.classList.toggle("border-teal-500");
+      cardRef.current.classList.toggle("bg-white");
+      cardRef.current.classList.toggle("bg-teal-400/10");
+
+      checkBoxRef.current.classList.toggle("bg-gray-100");
+      checkBoxRef.current.classList.toggle("fill-gray-400");
+      checkBoxRef.current.classList.toggle("bg-teal-500");
+      checkBoxRef.current.classList.toggle("fill-white");
+
+      checkBoxRef.current.classList.toggle("hidden");
+      selectedBoxRef.current.classList.toggle("hidden");
+    }
+  };
 
   const tagsList: JSX.Element[] = [];
   for (let i = 0; i < data.tags.length; i++) {
     if (data.tags[i] !== "") {
-      tagsList.push(<Tag key={"tag" + i} text={data.tags[i]} onClose={false} />);
+      tagsList.push(
+        <Tag key={"tag" + i} text={data.tags[i]} onClose={false} />
+      );
     }
   }
 
@@ -31,35 +55,27 @@ const DefinitionCard = ({ id, data }: Props) => {
     examplesList.push(<li key={"li" + i}>{data.examples[i]}</li>);
   }
 
+  useEffect(() => {
+    if (isAddToAnkiButtonClicked && selectedCardIdList.indexOf(id) != -1) {
+      toggleSelectionStyle();
+    }
+  }, [isAddToAnkiButtonClicked]);
+
   return (
     <div
       className="flex flex-col gap-2 p-2 rounded-lg bg-white border-4 border-white cursor-pointer"
       ref={cardRef}
       id={id}
       onClick={() => {
-        if (cardRef.current && checkBoxRef.current && selectedBoxRef.current) {
-          let tempList: string[] = [...selectedCardIdList];
-          const indexOfId = tempList.indexOf(id);
-          if (indexOfId !== -1) {
-            tempList.splice(indexOfId, 1);
-          } else {
-            tempList.push(id);
-          }
-          setSelectedCardIdList(tempList);
-
-          cardRef.current.classList.toggle("border-white");
-          cardRef.current.classList.toggle("border-teal-500");
-          cardRef.current.classList.toggle("bg-white");
-          cardRef.current.classList.toggle("bg-teal-400/10");
-
-          checkBoxRef.current.classList.toggle("bg-gray-100");
-          checkBoxRef.current.classList.toggle("fill-gray-400");
-          checkBoxRef.current.classList.toggle("bg-teal-500");
-          checkBoxRef.current.classList.toggle("fill-white");
-
-          checkBoxRef.current.classList.toggle("hidden");
-          selectedBoxRef.current.classList.toggle("hidden");
+        let tempList = [...selectedCardIdList];
+        const indexOfId = tempList.indexOf(id);
+        if (indexOfId !== -1) {
+          tempList.splice(indexOfId, 1);
+        } else {
+          tempList.push(id);
         }
+        setSelectedCardIdList(tempList);
+        toggleSelectionStyle();
       }}
     >
       <div className="flex justify-between">
@@ -107,12 +123,8 @@ const DefinitionCard = ({ id, data }: Props) => {
         </div>
       </div>
       <div className="flex flex-wrap gap-1">{tagsList}</div>
-      <p className="text-sm font-medium">
-        {data.definition}
-      </p>
-      <ul className="ml-6 list-disc text-xs italic">
-        {examplesList}
-      </ul>
+      <p className="text-sm font-medium">{data.definition}</p>
+      <ul className="ml-6 list-disc text-xs italic">{examplesList}</ul>
     </div>
   );
 };

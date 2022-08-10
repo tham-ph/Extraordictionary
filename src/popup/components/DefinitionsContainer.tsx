@@ -8,8 +8,8 @@ const DefinitionsContainer = () => {
   for (let i = 0; i < searchResults.length; i++) {
     definitionCardList.push(
       <DefinitionCard
-        key={"definition" + i}
-        id={"definition" + i}
+        key={"definition " + i}
+        id={"definition " + i}
         data={searchResults[i]}
       />
     );

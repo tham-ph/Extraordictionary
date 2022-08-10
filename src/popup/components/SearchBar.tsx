@@ -8,6 +8,7 @@ const SearchBar = () => {
     setImageURLSearchResults,
     setDefinitionsReady,
     setImagesReady,
+    setSearchInput,
   } = useContext<AppContextInterface>(AppContext);
 
   const [selectedText, setSelectedText] = useState<string>("");
@@ -15,6 +16,9 @@ const SearchBar = () => {
   const search = () => {
     if (inputRef.current?.value === "") {
       return;
+    }
+    if (inputRef.current) {
+      setSearchInput(inputRef.current.value);
     }
     setDefinitionsReady(false);
     setImagesReady(false);
