@@ -6,15 +6,40 @@ import {
 } from "../Popup";
 
 const convertDefinitionCardToHTML = (data: SearchResultInterface) => {
-  let htmlString = "";
-  htmlString += `<div>${data.name}   ${data.definition}<div/>`;
-  return htmlString;
+  let html = "";
+
+  html += `
+    <div class="flex flex-col gap-2 p-2 rounded-lg bg-white border-4 border-white">
+      <div class="flex items-center gap-2 break-all" style="width: 280px">
+        <h2 class="text-2xl font-bold">${data.name}</h2>
+      </div>
+      `;
+
+  html += '<div class="flex flex-wrap gap-1">';
+  for (const tag of data.tags) {
+    if (tag != "") {
+      html += `<div class="flex gap-1 h-4 py-2 p-1 rounded-lg justify-center items-center bg-sky-400/20 text-xs text-sky-600 font-medium">${tag}</div>`;
+    }
+  }
+  html += "</div>";
+
+  html += `<p class="text-sm font-medium">${data.definition}</p>`;
+
+  html += '<ul class="ml-6 list-disc text-xs italic">';
+  for (const example of data.examples) {
+    html += `<li>${example}</li>`;
+  }
+  html += "</ul>";
+
+  html += "</div>";
+
+  return html;
 };
 
 const convertImageCardToHTML = (imageURL: string) => {
-  let htmlString = "";
-  htmlString += `<div style="text-align: center"><img style="width: 200px" src="${imageURL}" alt="picture"></div>`;
-  return htmlString;
+  let html = "";
+  html += `<div class="rounded-lg border-4 border-white" style="text-align: center; margin: auto;"><img style="width: 200px" src="${imageURL}" alt="picture"></div>`;
+  return html;
 };
 
 const AddToAnkiButton = () => {
@@ -28,8 +53,6 @@ const AddToAnkiButton = () => {
   } = useContext<AppContextInterface>(AppContext);
 
   const selectedCardCounterRef = useRef<HTMLDivElement>(null);
-
-  const cardHTMLGathering: string[] = [];
 
   useEffect(() => {
     if (selectedCardCounterRef.current) {
@@ -48,6 +71,8 @@ const AddToAnkiButton = () => {
         className="flex justify-center items-center gap-2 p-2  bg-sky-400 rounded-l-lg text-sm font-bold text-white hover:bg-sky-600"
         onClick={() => {
           setAddToAnkiButtonClicked(true);
+
+          const cardHTMLGathering: string[] = [];
           for (const id of selectedCardIdList) {
             const index = parseInt(id.split(" ")[1]);
             if (id.split(" ")[0] === "definition") {
@@ -60,14 +85,17 @@ const AddToAnkiButton = () => {
               );
             }
           }
-          let backCardHTML = "<div style='display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 16px'>";
+
+          let backCardHTML = "<div class='flex flex-col p-2 gap-2 rounded-lg bg-gray-100' style='width: 350px; margin: auto;'>";
           for (const cardHTML of cardHTMLGathering) {
             backCardHTML += cardHTML;
           }
           backCardHTML += "</div>";
-          let frontCardHTML = `<p style="text-align: center">${searchInput}</p>`;
+
+          let frontCardHTML = `<p class="font-regular text-2xl text-center p-2">${searchInput}</p>`;
+
           chrome.runtime.sendMessage(
-            { action: "addCardToAnki", frontCardHTML, backCardHTML },
+            {action: "addCardToAnki", frontCardHTML, backCardHTML},
             (response) => {
               console.log(response);
               setAddToAnkiButtonClicked(false);
