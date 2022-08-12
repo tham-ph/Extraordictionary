@@ -50,7 +50,7 @@ const DefinitionsContainer = () => {
   }
 
   return (
-    <div className="flex flex-col p-2 gap-2 w-[350px] h-[300px] rounded-lg bg-gray-100 overflow-y-scroll">
+    <div className="flex flex-col p-2 gap-2 w-[350px] h-[300px] rounded-lg bg-gray-100 overflow-y-auto">
       {display}
     </div>
   );

@@ -52,7 +52,7 @@ const ImagesContainer = () => {
   }
 
   return (
-    <div className="flex flex-col items-center p-2 gap-2 w-[200px] h-[300px] rounded-lg bg-gray-100 overflow-y-scroll">
+    <div className="flex flex-col items-center p-2 gap-2 w-[200px] h-[300px] rounded-lg bg-gray-100 overflow-y-auto">
       {display}
     </div>
   );
