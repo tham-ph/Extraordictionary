@@ -1,7 +1,9 @@
+let chosenDeck = "Default";
+
 const ankiInvoke = async (action: string, params: object) => {
   const version = 6;
   let result: any = {};
-  fetch("http://127.0.0.1:8765", {
+  await fetch("http://127.0.0.1:8765", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -21,8 +23,28 @@ const ankiInvoke = async (action: string, params: object) => {
 };
 
 const getDeckNames = async () => {
-  return await ankiInvoke("deckNames", {});
+  const deckNameList = await ankiInvoke("deckNames", {});
+  for (let i = 0; i < deckNameList.length; i++) {
+    if (deckNameList[i] === "Default") {
+      const t = deckNameList[0];
+      deckNameList[0] = "Default";
+      deckNameList[i] = t;
+      break;
+    }
+  }
+  await chrome.storage.sync.get(["chosenDeckInStorage"], response => {
+    if (response.chosenDeckInStorage) {
+      chosenDeck = response.chosenDeckInStorage;
+    }
+  });
+  return deckNameList;
 };
+
+const chooseDeck = async (deckName: string) => {
+  chosenDeck = deckName;
+  await chrome.storage.sync.set({"chosenDeckInStorage": deckName}, () => {});
+  return "choose " + chosenDeck + " deck successfully";
+}
 
 const createModel = async () => {
   return await ankiInvoke("createModel", {
@@ -43,9 +65,9 @@ const createModel = async () => {
 
 const addCard = async (frontCardHTML: string, backCardHTML: string) => {
   await createModel();
-  return await ankiInvoke("addNote", {
+  await ankiInvoke("addNote", {
     "note": {
-      "deckName": "test1",
+      "deckName": chosenDeck,
       "modelName": "ExtraordictionaryModel",
       "fields": {
         "Front": frontCardHTML,
@@ -64,7 +86,8 @@ const addCard = async (frontCardHTML: string, backCardHTML: string) => {
         }
       },
     }
-  })
+  });
+  return `add the card into ${chosenDeck} deck successfully`;
 }
 
-export { ankiInvoke, getDeckNames, addCard};
+export { ankiInvoke, getDeckNames, addCard, chosenDeck, chooseDeck};
