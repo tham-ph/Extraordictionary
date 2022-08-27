@@ -17,6 +17,7 @@ const ankiInvoke = async (action: string, params: object) => {
       result = data.result;
     })
     .catch((error) => {
+      result = "UNCONNECTED";
       console.log(error);
     });
   return result;
@@ -65,6 +66,7 @@ const createModel = async () => {
 
 const addCard = async (frontCardHTML: string, backCardHTML: string) => {
   await createModel();
+  await getDeckNames();
   await ankiInvoke("addNote", {
     "note": {
       "deckName": chosenDeck,

@@ -1,6 +1,9 @@
 import imageScraper from "./scrapers/imageScraper";
-import {addCard, chooseDeck, chosenDeck, getDeckNames} from "./ankiController";
+import {addCard, chooseDeck, chosenDeck, ankiInvoke, getDeckNames} from "./ankiController";
 import translate from "./translate";
+
+let popupOption = 2;
+
 chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   if (request.action === "translate") {
     translate(request.search, request.dictionaries).then(allDictionariesSearchResults => sendResponse(allDictionariesSearchResults));
@@ -14,6 +17,24 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     sendResponse(chosenDeck);
   } else if (request.action === "chooseDeck") {
     chooseDeck(request.deckName).then(response => sendResponse(response));
+  } else if (request.action === "checkAnkiConnectStatus") {
+    ankiInvoke("deckNames", {}).then(status => {
+      if (status === "UNCONNECTED") {
+        sendResponse("UNCONNECTED");
+      } else {
+        sendResponse("CONNECTED");
+      }
+    });
+  } else if (request.action === "getPopupOption") {
+    chrome.storage.sync.get(["popupOptionInStorage"], response => {
+      if (response.popupOptionInStorage) {
+        popupOption = response.popupOptionInStorage;
+      }
+      sendResponse(popupOption);
+    });
+  } else if (request.action === "setPopupOption") {
+    popupOption = request.option;
+    chrome.storage.sync.set({"popupOptionInStorage": popupOption}, () => {});
   }
   return true;
 });
