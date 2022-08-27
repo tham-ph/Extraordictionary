@@ -26,7 +26,7 @@ const SearchBar = () => {
       {
         action: "translate",
         search: inputRef.current?.value,
-        dictionary: "CambridgeEnglish",
+        dictionaries: ["cambridgeEnglish", "oxfordEnglish"],
       },
       (response) => {
         setSearchResults(response);
