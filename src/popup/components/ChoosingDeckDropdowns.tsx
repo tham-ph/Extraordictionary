@@ -6,6 +6,9 @@ const ChoosingDeckDropdowns = () => {
   useEffect(() => {
     chrome.runtime.sendMessage({ action: "getDeckNames" }, (response) => {
       chrome.runtime.sendMessage({action: "getChosenDeck"}, chosenDeck => {
+
+        if (response == "UNCONNECTED") return;
+
         const tempList: JSX.Element[] = [];
         for (let i = 0; i < response.length; i++) {
           tempList.push(
@@ -55,10 +58,16 @@ const ChoosingDeckDropdowns = () => {
   return (
     <div
       id="choosing-deck-dropdown"
-      className="hidden fixed right-3 mt-1 drop-shadow-lg bg-white h-[200px] w-[300px] whitespace-nowrap overflow-y-auto overflow-x-auto"
+      className="flex hidden fixed right-3 mt-1 drop-shadow-lg bg-white h-[200px] w-[300px] whitespace-nowrap overflow-y-auto overflow-x-auto"
       style={{ zIndex: "2020" }}
     >
-      <ul className="min-w-fit border border-gray-100">{deckNameList}</ul>
+      {
+        deckNameList.length == 0 ? (
+          <p className="my-auto mx-auto text-lg font-bold text-red-600">AnkiConnect is unconnected</p>
+        ) : (
+          <ul className="min-w-fit border border-gray-100">{deckNameList}</ul>
+        )
+      }
     </div>
   );
 };
