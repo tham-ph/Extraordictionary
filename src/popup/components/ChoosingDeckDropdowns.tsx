@@ -58,7 +58,7 @@ const ChoosingDeckDropdowns = () => {
   return (
     <div
       id="choosing-deck-dropdown"
-      className="flex hidden fixed right-3 mt-1 drop-shadow-lg bg-white h-[200px] w-[300px] whitespace-nowrap overflow-y-auto overflow-x-auto"
+      className="flex hidden fixed right-3 mt-1 drop-shadow-lg bg-white max-h-[250px] w-[300px] whitespace-nowrap overflow-y-auto overflow-x-auto"
       style={{ zIndex: "2020" }}
     >
       {
