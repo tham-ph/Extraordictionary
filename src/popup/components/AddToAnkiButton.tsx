@@ -80,7 +80,6 @@ const AddToAnkiButton = () => {
       <div className="flex divide-x-2">
         <button
           disabled={!isAnkiConnect}
-          id="add-to-anki-button"
           className="flex justify-center items-center gap-2 p-2  bg-sky-400 rounded-l-lg text-sm font-bold text-white hover:bg-sky-600 disabled:bg-gray-300"
           onClick={() => {
             setAddToAnkiButtonClicked(true);
@@ -128,7 +127,6 @@ const AddToAnkiButton = () => {
         </button>
         <button
           disabled={!isAnkiConnect}
-          id="choosing-deck-dropdown"
           className="bg-sky-400 rounded-r-lg hover:bg-sky-600 disabled:bg-gray-300"
           onClick={() => {
             document.getElementById("choosing-deck-dropdown")?.classList.toggle("hidden");
