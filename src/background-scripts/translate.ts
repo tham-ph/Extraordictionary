@@ -4,19 +4,32 @@ import oxfordEnglish from "./scrapers/dictionaries/oxfordEnglish";
 
 const translate = async (search: string, dictionaries: string[]) => {
   let allDictionariesSearchResults: SearchResultInterface[] = [];
+  let preparedArray: SearchResultInterface[][] = [[]];
+
   for (const dictionary of dictionaries) {
     if (dictionary === "CambridgeEnglish") {
       const searchResults = await cambridgeEnglish(search);
-      for (const searchResult of searchResults) {
-        allDictionariesSearchResults.push(searchResult);
-      }
+      preparedArray.push(searchResults);
     }
     if (dictionary === "OxfordEnglish") {
       const searchResults = await oxfordEnglish(search);
-      for (const searchResult of searchResults) {
-        allDictionariesSearchResults.push(searchResult);
+      preparedArray.push(searchResults);
+    }
+  }
+
+  //mix all dictionaries
+  let index = 0;
+  while (true) {
+    let can = false;
+    for (const searchResults of preparedArray) {
+      if (index < searchResults.length) {
+        allDictionariesSearchResults.push(searchResults[index]);
+        can = true;
       }
     }
+    if (!can) break;
+    index++;
+
   }
   return allDictionariesSearchResults;
 };
