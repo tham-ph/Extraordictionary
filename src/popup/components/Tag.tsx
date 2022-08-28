@@ -2,14 +2,14 @@ import React from "react";
 
 interface Props {
   text: string;
-  onClose: boolean;
+  closeButton: boolean;
 }
 
-const Tag = ({text, onClose}: Props) => {
+const Tag = ({text, closeButton}: Props) => {
   return (
     <div className="flex gap-1 h-4 py-2 p-1 rounded-lg justify-center items-center bg-sky-400/20 text-xs text-sky-600 font-medium">
       {text}
-      {onClose && (
+      {closeButton && (
         <button>
           <svg
             width="12"

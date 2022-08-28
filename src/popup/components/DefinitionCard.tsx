@@ -45,7 +45,7 @@ const DefinitionCard = ({ id, data }: Props) => {
   for (let i = 0; i < data.tags.length; i++) {
     if (data.tags[i] !== "") {
       tagsList.push(
-        <Tag key={"tag" + i} text={data.tags[i]} onClose={false} />
+        <Tag key={"tag" + i} text={data.tags[i]} closeButton={false} />
       );
     }
   }
