@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {
   AppContext,
   AppContextInterface,
@@ -54,6 +54,15 @@ const AddToAnkiButton = () => {
   } = useContext<AppContextInterface>(AppContext);
 
   const selectedCardCounterRef = useRef<HTMLDivElement>(null);
+  const [isAnkiConnect, setAnkiConnect] = useState<boolean>(false);
+
+  useEffect(() => {
+    chrome.runtime.sendMessage({action: "checkAnkiConnectStatus"}, response => {
+      if (response == "CONNECTED") {
+        setAnkiConnect(true);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (selectedCardCounterRef.current) {
@@ -70,7 +79,9 @@ const AddToAnkiButton = () => {
     <div>
       <div className="flex divide-x-2">
         <button
-          className="flex justify-center items-center gap-2 p-2  bg-sky-400 rounded-l-lg text-sm font-bold text-white hover:bg-sky-600"
+          disabled={!isAnkiConnect}
+          id="add-to-anki-button"
+          className="flex justify-center items-center gap-2 p-2  bg-sky-400 rounded-l-lg text-sm font-bold text-white hover:bg-sky-600 disabled:bg-gray-300"
           onClick={() => {
             setAddToAnkiButtonClicked(true);
 
@@ -116,7 +127,9 @@ const AddToAnkiButton = () => {
           </div>
         </button>
         <button
-          className="bg-sky-400 rounded-r-lg hover:bg-sky-600"
+          disabled={!isAnkiConnect}
+          id="choosing-deck-dropdown"
+          className="bg-sky-400 rounded-r-lg hover:bg-sky-600 disabled:bg-gray-300"
           onClick={() => {
             document.getElementById("choosing-deck-dropdown")?.classList.toggle("hidden");
           }}
