@@ -1,22 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Filter = () => {
-  return (
-    <button className="p-1 rounded-full hover:bg-sky-400/10" >
-      <svg
-        width="22"
-        height="22"
-        viewBox="0 0 20 20"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+  const [selectedDictionaries, setSelectedDictionaries] = useState<string[]>([]);
+  const [allDictionaries, setAllDictionaries] = useState<string[]>([]);
+
+  useEffect(() => {
+    chrome.runtime.sendMessage({ action: "getAllDictionaries" }, (response) => {
+      setAllDictionaries(response);
+    });
+    chrome.runtime.sendMessage(
+      { action: "getSelectedDictionaries" },
+      (response) => {
+        setSelectedDictionaries(response);
+      }
+    );
+  }, []);
+
+  const checkBoxes: JSX.Element[] = [];
+  for (let i = 0; i < allDictionaries.length; i++) {
+    const checkbox = (
+      <input
+        type="checkbox"
+        value={allDictionaries[i]}
+        checked={selectedDictionaries.includes(allDictionaries[i])}
+        onChange={(event) => {
+          if (selectedDictionaries.includes(event.target.value)) {
+            const temp = selectedDictionaries;
+            temp.splice(temp.indexOf(event.target.value), 1);
+            console.log(temp);
+            chrome.runtime.sendMessage(
+              {
+                action: "setSelectedDictionaries",
+                dictionaries: temp,
+              },
+              () => {
+                setSelectedDictionaries([...temp]);
+              }
+            );
+          } else {
+            chrome.runtime.sendMessage(
+              {
+                action: "setSelectedDictionaries",
+                dictionaries: [...selectedDictionaries, event.target.value]
+              },
+              () => {
+                setSelectedDictionaries([
+                  ...selectedDictionaries,
+                  event.target.value,
+                ]);
+              }
+            );
+          }
+        }}
+      />
+    );
+    const label = <label>{allDictionaries[i]}</label>;
+    checkBoxes.push(
+      <div
+        key={"dictionary-checkbox " + i}
+        className="flex items-center gap-2 text-sm font-normal"
       >
-        <path
-          className="fill-sky-400"
-          d="M3 3C3 2.44772 3.44772 2 4 2H16C16.5523 2 17 2.44772 17 3V6C17 6.26522 16.8946 6.51957 16.7071 6.70711L12 11.4142V15C12 15.2652 11.8946 15.5196 11.7071 15.7071L9.70711 17.7071C9.42111 17.9931 8.99099 18.0787 8.61732 17.9239C8.24364 17.7691 8 17.4045 8 17V11.4142L3.29289 6.70711C3.10536 6.51957 3 6.26522 3 6V3Z"
-          fill="#111827"
-        />
-      </svg>
-    </button>
+        {checkbox}
+        {label}
+      </div>
+    );
+  }
+
+  return (
+    <form
+      id="filter"
+      className="flex flex-col p-2 gap-2 fixed hidden right-16 drop-shadow-lg bg-white w-[200px] max-h-[300px] overflow-y-auto"
+    >
+      {checkBoxes}
+    </form>
   );
 };
 

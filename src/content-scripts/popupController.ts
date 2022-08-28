@@ -28,7 +28,6 @@ const openPopup = () => {
       chrome.runtime.sendMessage({
         action: "translate",
         search: selectedText.toString(),
-        dictionaries: ["cambridgeEnglish", "oxfordEnglish"],
       }, response => {
         if ((popupOption == 2 && response.length > 0) || popupOption == 1) {
           // reload iframe

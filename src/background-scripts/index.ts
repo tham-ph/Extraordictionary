@@ -3,10 +3,12 @@ import {addCard, chooseDeck, chosenDeck, ankiInvoke, getDeckNames} from "./ankiC
 import translate from "./translate";
 
 let popupOption = 2;
+let selectedDictionaries: string[] = ["CambridgeEnglish"];
+let allDictionaries = ["CambridgeEnglish", "OxfordEnglish"];
 
 chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   if (request.action === "translate") {
-    translate(request.search, request.dictionaries).then(allDictionariesSearchResults => sendResponse(allDictionariesSearchResults));
+    translate(request.search, selectedDictionaries).then(allDictionariesSearchResults => sendResponse(allDictionariesSearchResults));
   } else if (request.action === "image") {
     imageScraper(request.search).then(imageURLSearchResults => sendResponse(imageURLSearchResults));
   } else if (request.action === "addCardToAnki") {
@@ -35,6 +37,21 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   } else if (request.action === "setPopupOption") {
     popupOption = request.option;
     chrome.storage.sync.set({"popupOptionInStorage": popupOption}, () => {});
+  } else if (request.action === "getSelectedDictionaries") {
+    chrome.storage.sync.get(["selectedDictionariesInStorage"], response => {
+      if (response.selectedDictionariesInStorage) {
+        selectedDictionaries = response.selectedDictionariesInStorage;
+      }
+      sendResponse(selectedDictionaries);
+    });
+  } else if (request.action === "setSelectedDictionaries") {
+    selectedDictionaries = request.dictionaries;
+    console.log(selectedDictionaries);
+    chrome.storage.sync.set({"selectedDictionariesInStorage": selectedDictionaries}, () => {
+      sendResponse("setSelectedDictionaries is success");
+    });
+  } else if (request.action === "getAllDictionaries") {
+    sendResponse(allDictionaries);
   }
   return true;
 });
