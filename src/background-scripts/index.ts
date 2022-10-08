@@ -3,8 +3,8 @@ import {addCard, chooseDeck, chosenDeck, ankiInvoke, getDeckNames} from "./ankiC
 import translate from "./translate";
 
 let popupOption = 2;
-let selectedDictionaries: string[] = ["CambridgeEnglish"];
-let allDictionaries = ["CambridgeEnglish", "OxfordEnglish"];
+let selectedDictionaries: string[] = ["Cambridge English"];
+let allDictionaries = ["Cambridge English", "Oxford English"];
 
 chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   if (request.action === "translate") {
@@ -46,7 +46,6 @@ chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
     });
   } else if (request.action === "setSelectedDictionaries") {
     selectedDictionaries = request.dictionaries;
-    console.log(selectedDictionaries);
     chrome.storage.sync.set({"selectedDictionariesInStorage": selectedDictionaries}, () => {
       sendResponse("setSelectedDictionaries is success");
     });

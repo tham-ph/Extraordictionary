@@ -7,11 +7,11 @@ const translate = async (search: string, dictionaries: string[]) => {
   let preparedArray: SearchResultInterface[][] = [[]];
 
   for (const dictionary of dictionaries) {
-    if (dictionary === "CambridgeEnglish") {
+    if (dictionary === "Cambridge English") {
       const searchResults = await cambridgeEnglish(search);
       preparedArray.push(searchResults);
     }
-    if (dictionary === "OxfordEnglish") {
+    if (dictionary === "Oxford English") {
       const searchResults = await oxfordEnglish(search);
       preparedArray.push(searchResults);
     }

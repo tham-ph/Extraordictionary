@@ -27,7 +27,6 @@ const Filter = () => {
           if (selectedDictionaries.includes(event.target.value)) {
             const temp = selectedDictionaries;
             temp.splice(temp.indexOf(event.target.value), 1);
-            console.log(temp);
             chrome.runtime.sendMessage(
               {
                 action: "setSelectedDictionaries",
