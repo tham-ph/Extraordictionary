@@ -7,11 +7,10 @@
 <br/>
 Extraordictionary is a Chrome extension for searching definitions/images of selected words from various online dictionaries. Moreover, you can add those definitions/images to Anki flashcard.
 <br/>
-<br/>
 
-### Installation
+## Installation
 use `npm install`
 
-### Building for development or use
+## Building for development or use
 1. use `npm run dev`(It can rebuild automatically) or`npm run build`
 2. Upload the `build` folder to Chrome. [Tutorial](https://www.youtube.com/watch?v=oswjtLwCUqg)
