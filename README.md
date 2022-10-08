@@ -1,5 +1,7 @@
-<div style="display: flex; justify-content: center; align-items: center; gap: 16px;">
-    <img src="src/assets/icon.svg" alt="logo" style="width: 50px"/>
+<div align="center">
+    <img src="src/assets/icon.svg" alt="logo" style="width: 50px;"/>
+    &nbsp
+    &nbsp
     <img src="src/assets/Extraordictionary.svg" style="height: 30px" alt="Extraordictionary"/>
 </div>
 <br/>
