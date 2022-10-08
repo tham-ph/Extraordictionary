@@ -123,7 +123,7 @@ const DefinitionCard = ({ id, data }: Props) => {
         </div>
       </div>
       <div className="flex flex-wrap gap-1">{tagsList}</div>
-      <p className="text-sm font-medium">{data.definition}</p>
+      <p className="text-sm font-medium whitespace-pre-line">{data.definition}</p>
       <ul className="ml-6 list-disc text-xs italic">{examplesList}</ul>
     </div>
   );

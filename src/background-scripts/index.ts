@@ -4,7 +4,7 @@ import translate from "./translate";
 
 let popupOption = 2;
 let selectedDictionaries: string[] = ["Cambridge English"];
-let allDictionaries = ["Cambridge English", "Oxford English"];
+let allDictionaries = ["Cambridge English", "Oxford English", "Cambridge English-Thai"];
 
 chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
   if (request.action === "translate") {

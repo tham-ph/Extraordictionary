@@ -1,6 +1,7 @@
 import { SearchResultInterface } from "../popup/Popup";
 import cambridgeEnglish from "./scrapers/dictionaries/cambridgeEnglish";
 import oxfordEnglish from "./scrapers/dictionaries/oxfordEnglish";
+import cambridgeEnglishThai from "./scrapers/dictionaries/cambridgeEnglishThai";
 
 const translate = async (search: string, dictionaries: string[]) => {
   let allDictionariesSearchResults: SearchResultInterface[] = [];
@@ -10,9 +11,11 @@ const translate = async (search: string, dictionaries: string[]) => {
     if (dictionary === "Cambridge English") {
       const searchResults = await cambridgeEnglish(search);
       preparedArray.push(searchResults);
-    }
-    if (dictionary === "Oxford English") {
+    } else if (dictionary === "Oxford English") {
       const searchResults = await oxfordEnglish(search);
+      preparedArray.push(searchResults);
+    } else if (dictionary === "Cambridge English-Thai") {
+      const searchResults = await cambridgeEnglishThai(search);
       preparedArray.push(searchResults);
     }
   }
