@@ -18,7 +18,7 @@ const ankiInvoke = async (action: string, params: object) => {
     })
     .catch((error) => {
       result = "UNCONNECTED";
-      console.log(error);
+      console.warn("Anki is UNCONNECTED");
     });
   return result;
 };
@@ -44,7 +44,7 @@ const getDeckNames = async () => {
 const chooseDeck = async (deckName: string) => {
   chosenDeck = deckName;
   await chrome.storage.sync.set({"chosenDeckInStorage": deckName}, () => {});
-  return "choose " + chosenDeck + " deck successfully";
+  return `Choose "${chosenDeck}" deck successfully`;
 }
 
 const createModel = async () => {
@@ -89,7 +89,7 @@ const addCard = async (frontCardHTML: string, backCardHTML: string) => {
       },
     }
   });
-  return `add the card into ${chosenDeck} deck successfully`;
+  return `Add the card into "${chosenDeck}" deck successfully`;
 }
 
 export { ankiInvoke, getDeckNames, addCard, chosenDeck, chooseDeck};

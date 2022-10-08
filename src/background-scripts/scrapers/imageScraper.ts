@@ -15,7 +15,7 @@ const imageScraper = async (search: string) => {
       }
     }
   }).catch(error => {
-    console.log(error);
+    console.error(`The images of "${search}" can't be found on Google Search Engine`);
   })
 
   return imageURLSearchResults;

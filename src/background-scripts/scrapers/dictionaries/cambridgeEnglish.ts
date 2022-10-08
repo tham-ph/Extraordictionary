@@ -94,7 +94,7 @@ const cambridgeEnglish = async (search: string) => {
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.error(`The definitions of "${search}" can't be found on Cambridge English dictionary`);
     });
 
   return searchResults;
