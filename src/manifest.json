@@ -1,6 +1,6 @@
 {
   "name": "Extraordictionary",
-  "description": "A dictionary with images and Ankiconnect",
+  "description": "An extension for searching definitions/images of selected words from various online dictionaries. Moreover, you can add those definitions/images to Anki flashcard.",
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
