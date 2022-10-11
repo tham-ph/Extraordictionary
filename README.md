@@ -5,7 +5,7 @@
     <img src="src/assets/Extraordictionary.svg" style="height: 30px" alt="Extraordictionary"/>
 </div>
 <br/>
-Extraordictionary is a Chrome extension for searching definitions and images of selected text from various online dictionaries/websites. Moreover, you can add those definitions and images to Anki flashcard by installing <a href="https://ankiweb.net/shared/info/2055492159">AnkiConnect<a/> Add-on.
+Extraordictionary is a Chrome extension for searching definitions and images of selected text from various online dictionaries/websites. Moreover, you can add those definitions and images to Anki flashcard by installing <a href="https://ankiweb.net/shared/info/2055492159">AnkiConnect<a/> add-on.
 <br/>
 
 ## Installation
