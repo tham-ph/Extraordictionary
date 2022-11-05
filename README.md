@@ -16,6 +16,7 @@ Extraordictionary is a Chrome extension for searching definitions and images of 
 - Choose an Anki deck you want to add to from the dropdown list in the ADD TO ANKI button.
 - Select definitions and images then clicking at the ADD TO ANKI button to add the definitions-images-bundled card to Anki.
 - There is the extension options in Options page (by right clicking at the extension's icon then you will see Options).
+- If you want to use this extension in PDF files, you might need to convert [PDF to HTML](https://www.idrsolutions.com/online-pdf-to-html5-converter) and open it as a website by click at "preview online" button
 
 ## Building/Installation for development
 1. use `npm install`
